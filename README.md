@@ -1,5 +1,8 @@
 # ipsec-infra
-Projeto de configuração da vm para VPN Site-to-Site
+Projeto de configuração para VPN Site-to-Site utilizando a ferramenta strongSwan
+
+[Documentação](https://wiki.strongswan.org/projects/strongswan/wiki/ConnSection)
+
 
 ## Configurações
 SO: CentOS 7, disponibilizado pela SaveInCloud
@@ -12,8 +15,6 @@ iptables -A FORWARD --source <CIDR server2> --destination <CIDR server1> --jump 
 ```
 
 ## Strongswan Configuration Example
-Server 1 = SaveInCloud<br/>
-Server 2 = AWS<br/>
 
 vi /etc/strongswan/sysctl.conf
 ```
