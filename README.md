@@ -9,9 +9,9 @@ SO: CentOS 7, disponibilizado pela SaveInCloud
 
 ## iptables
 ```
-iptables -t nat -A POSTROUTING -o venet0 -j MASQUERADE
-iptables -A FORWARD --source <CIDR server1> --destination <CIDR server2> --jump ACCEPT
-iptables -A FORWARD --source <CIDR server2> --destination <CIDR server1> --jump ACCEPT
+iptables -t nat -A POSTROUTING -o <venet0> -j MASQUERADE
+iptables -A FORWARD --source <CIDR server_local> --destination <CIDR server_remote> --jump ACCEPT
+iptables -A FORWARD --source <CIDR server_remote> --destination <CIDR server_local> --jump ACCEPT
 ```
 
 ## Strongswan Configuration Example
@@ -30,17 +30,17 @@ conn %default
     esp=aes128-sha1-modp1024
     lifetime=3600s
     left=%any
-    leftsubnet=<CIDR server1>
+    leftsubnet=<CIDR server_local>
     leftfirewall=yes
 conn aws-1
-    right=<IP server2/tunnel1>
-    rightsubnet=<CIDR server2>
+    right=<IP server_remote1/tunnel1>
+    rightsubnet=<CIDR server_remote>
 conn aws-2
-    right=<IP server2/tunnel2>
-    rightsubnet=<CIDR server2>
+    right=<IP server_remote2/tunnel2>
+    rightsubnet=<CIDR server_remote>
 ```
 vi /etc/strongswan/sysctl.secrets
 ```
-34.199.65.225 : PSK "ziV45E3gszu5nhZ3s7sPx.sDR7nwI1kq"
-52.55.239.176 : PSK "blLGkXvxAJrzyJsjjl.UaIRUo_Fl2mYt"
+IP server_remote1 : PSK "xxxxxxxxxx"
+IP server_remote2 : PSK "xxxxxxxxxx"
 ```
